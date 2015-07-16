@@ -46,8 +46,9 @@ func (config *LogstashForwarderConfig) AddContainerLogFile(container *docker.Con
 	file.Fields["docker.hostname"] = container.Config.Hostname
 	file.Fields["docker.name"] = container.Name
 	file.Fields["docker.image"] = container.Config.Image
-        file.Fields["docker.label"] = container.Config.Labels["cr_whoami"]
-
+	if val, ok := container.Config.Labels["cr_whoami"]; ok {
+            file.Fields["docker.label"] = container.Config.Labels["cr_whoami"]
+	}
 	config.Files = append(config.Files, file)
 }
 
