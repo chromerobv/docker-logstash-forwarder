@@ -33,6 +33,7 @@ type LogstashForwarderConfig struct {
 	Network Network `json:"network"`
 	Files   []File  `json:"files"`
 }
+import "fmt"
 
 // AddContainerLogFile adds the containers docker log file to this config.
 func (config *LogstashForwarderConfig) AddContainerLogFile(container *docker.Container) {
@@ -46,9 +47,13 @@ func (config *LogstashForwarderConfig) AddContainerLogFile(container *docker.Con
 	file.Fields["docker.hostname"] = container.Config.Hostname
 	file.Fields["docker.name"] = container.Name
 	file.Fields["docker.image"] = container.Config.Image
-	if val, ok := container.Config.Labels["cr_whoami"]; ok {
-            file.Fields["docker.label"] = container.Config.Labels["cr_whoami"]
-	}
+
+fmt.Println("map:", container.Config.Labels)
+
+//	if val, ok := container.Config.Labels["cr_whoami"]; ok {
+ //           file.Fields["docker.label"] = container.Config.Labels["cr_whoami"]
+//	}
+
 	config.Files = append(config.Files, file)
 }
 
