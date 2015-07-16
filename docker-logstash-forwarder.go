@@ -75,7 +75,7 @@ func main() {
 }
 
 func generateConfig() {
-	log.Info("Triggering refresh...")
+	log.Info("Triggering refresh...AND STUFF")
 	utils.Refresh.Mu.Lock()
 	utils.Refresh.IsTriggered = false
 	utils.Refresh.Mu.Unlock()
