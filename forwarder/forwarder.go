@@ -45,11 +45,16 @@ func TriggerRefresh(client *docker.Client, logstashEndpoint string, configFile s
 
 	log.Debug("Found %d containers:", len(containers))
 	for i, c := range containers {
-		log.Debug("%d. %s", i+1, c.ID)
+     		   log.Debug("%d. %s", i+1, c.ID)
 
 		container, err := client.InspectContainer(c.ID)
 		if err != nil {
 			log.Fatalf("Unable to inspect container %s: %s", c.ID, err)
+		}
+
+                if (container.Name == "/logstash-forwarder") {
+      		    log.Info("Skipping %s logs", container.Name)
+		    continue
 		}
 
 		forwarderConfig.AddContainerLogFile(container)
@@ -96,7 +101,7 @@ func TriggerRefresh(client *docker.Client, logstashEndpoint string, configFile s
 		}
 		log.Info("Stopped logstash-forwarder")
 	}
-	cmd = exec.Command("logstash-forwarder", "-config", configPath, fmt.Sprintf("-quiet=%t", quiet))
+	cmd = exec.Command("logstash-forwarder", "-config", configPath, fmt.Sprintf("-quiet=%t", quiet), "--workingdir=/etc/logstash/tmp")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 

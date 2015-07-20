@@ -89,3 +89,4 @@ func getDockerEndpoint() string {
 func getLogstashEndpoint() string {
 	return utils.EndPoint("logstash:5043", logstashEndPoint, "LOGSTASH_HOST")
 }
+
