@@ -52,7 +52,7 @@ func TriggerRefresh(client *docker.Client, logstashEndpoint string, configFile s
 			log.Fatalf("Unable to inspect container %s: %s", c.ID, err)
 		}
 
-                if (container.Name == "/logstash-forwarder") {
+                if ((container.Name == "/logstash-forwarder") || (container.Name == "/logstash")) {
       		    log.Info("Skipping %s logs", container.Name)
 		    continue
 		}
