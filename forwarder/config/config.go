@@ -42,13 +42,12 @@ func (config *LogstashForwarderConfig) AddContainerLogFile(container *docker.Con
 	file.Fields = make(map[string]string)
 	file.Fields["type"] = "docker"
 	file.Fields["codec"] = "json"
-	file.Fields["docker.id"] = id
-	file.Fields["docker.hostname"] = container.Config.Hostname
-	file.Fields["docker.name"] = container.Name
-	file.Fields["docker.image"] = container.Config.Image
-	file.Fields["docker.label"] = container.Config.Labels["cr_whoami"]
-	file.Fields["docker.node"] = os.Getenv("DOCKER_NODE")
-        
+	file.Fields["docker_id"] = id
+	file.Fields["docker_hostname"] = container.Config.Hostname
+	file.Fields["docker_name"] = container.Name
+	file.Fields["docker_image"] = container.Config.Image
+	file.Fields["docker_label"] = container.Config.Labels["cr_whoami"]
+	file.Fields["docker_node"] = os.Getenv("DOCKER_NODE")        
 
 	config.Files = append(config.Files, file)
 }
